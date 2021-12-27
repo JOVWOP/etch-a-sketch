@@ -1,6 +1,7 @@
 
 const container = document.querySelector('#container')
 const clearButton = document.querySelector('.clear')
+const colorButton = document.querySelector("input[type='color'")
 
 function makeRows(rows, cols) {
     container.style.setProperty('--grid-rows', rows);
@@ -15,17 +16,23 @@ function makeRows(rows, cols) {
   const currentBox = Array.from(document.querySelectorAll('.grid-item'));
 
   function changeColor() {
-      this.style.backgroundColor = 'black'
+      document.documentElement.style.setProperty(`--${this.name}`, this.value)
+  }
+
+  function changeBox() {
+      this.classList.add('color');
   }
 
   function clearGrid() {
       currentBox.forEach(box => {
-          box.style.backgroundColor = 'white';
+          box.classList.remove('color');
       })
   }
 
+  
   currentBox.forEach(box => {
-      box.addEventListener('mouseover', changeColor)
+      box.addEventListener('mouseover', changeBox);
   });
 
-  clearButton.addEventListener('click', clearGrid)
+  clearButton.addEventListener('click', clearGrid);
+  colorButton.addEventListener('change', changeColor);
