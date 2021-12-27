@@ -12,3 +12,13 @@ function makeRows(rows, cols) {
   };
   makeRows(16,16);
 
+  const currentBox = Array.from(document.querySelectorAll('.grid-item'));
+
+  function changeColor() {
+      this.style.backgroundColor = 'black'
+  }
+
+
+  currentBox.forEach(box => {
+      box.addEventListener('mouseover', changeColor)
+  });
