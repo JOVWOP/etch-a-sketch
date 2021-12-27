@@ -18,7 +18,14 @@ function makeRows(rows, cols) {
       this.style.backgroundColor = 'black'
   }
 
+  function clearGrid() {
+      currentBox.forEach(box => {
+          box.style.backgroundColor = 'white';
+      })
+  }
 
   currentBox.forEach(box => {
       box.addEventListener('mouseover', changeColor)
   });
+
+  clearButton.addEventListener('click', clearGrid)
