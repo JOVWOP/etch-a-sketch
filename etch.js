@@ -1,38 +1,45 @@
+let currentSize = 16;
 
-const container = document.querySelector('#container')
-const clearButton = document.querySelector('.clear')
-const colorButton = document.querySelector("input[type='color'")
+const container = document.querySelector('#container');
+const clearButton = document.querySelector('.clear');
+const colorButton = document.querySelector("input[type='color']");
+const rangeButton = document.querySelector("input[type='range']");
 
-function makeRows(rows, cols) {
-    container.style.setProperty('--grid-rows', rows);
-    container.style.setProperty('--grid-cols', cols);
-    for (c = 0; c < (rows * cols); c++) {
-      let cell = document.createElement("div");
-      container.appendChild(cell).className = "grid-item";
-    };
-  };
-  makeRows(16,16);
 
-  const currentBox = Array.from(document.querySelectorAll('.grid-item'));
+ function setupGrid(size) {
+    container.style.gridTemplateColumns = `repeat(${size}, 1fr)`
+    container.style.gridTemplateRows = `repeat(${size}, 1fr)`
+    for (let i = 0; i < size * size; i++) {
+      const cell = document.createElement("div");
+      cell.addEventListener('mouseover', changeBox);
+      container.appendChild(cell);
+    }
+  }
+  setupGrid(16);
 
-  function changeColor() {
-      document.documentElement.style.setProperty(`--${this.name}`, this.value)
+  function clearGrid() {
+    container.innerHTML = ''
   }
 
   function changeBox() {
-      this.classList.add('color');
+      this.style.backgroundColor = colorButton.value;
   }
 
-  function clearGrid() {
-      currentBox.forEach(box => {
-          box.classList.remove('color');
-      })
+  function refreshGrid() {
+      clearGrid()
+      setupGrid(this.value);
+      currentSize = this.value;
+  }
+
+
+  function clearCurrentGrid() {
+    clearGrid()
+    setupGrid(currentSize)
   }
 
   
-  currentBox.forEach(box => {
-      box.addEventListener('mouseover', changeBox);
-  });
 
-  clearButton.addEventListener('click', clearGrid);
-  colorButton.addEventListener('change', changeColor);
+
+  rangeButton.addEventListener('input', refreshGrid);
+  clearButton.addEventListener('click', clearCurrentGrid);
+
